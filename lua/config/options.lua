@@ -9,6 +9,7 @@ vim.o.linespace = -4
 vim.o.ignorecase = true
 vim.o.confirm = true
 vim.o.swapfile = false
+vim.o.timeoutlen = 400 -- Time to wait for mapped sequence (ms)
 vim.o.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 
 vim.opt.showmode = false

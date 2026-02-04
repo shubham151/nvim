@@ -6,7 +6,8 @@ vim.keymap.set({ "n", "v" }, cmd("j"), keyfns.scroll_down, { desc = "Scroll down
 vim.keymap.set({ "n", "v" }, "<ScrollWheelDown>", keyfns.mouse_scroll_down, { desc = "Mouse scroll down" })
 
 vim.keymap.set("n", "q", "V", { desc = "Switch to visual line mode" })
-vim.keymap.set("v", "q", "<esc>", { desc = "Exit visual line mode" })
+vim.keymap.set("v", "q", "<Esc>", { desc = "Exit visual mode" })
+vim.keymap.set("v", "<Esc>", "<Esc>", { desc = "Exit visual mode" })
 vim.keymap.set({ "n", "v" }, "2", keyfns.toggle_macro, { desc = "Toggle macro recording" })
 vim.keymap.set({ "n", "v" }, "3", "@a", { desc = "Replay macro" })
 

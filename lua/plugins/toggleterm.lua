@@ -40,16 +40,46 @@ local function toggle_claude()
   claude_term:toggle()
 end
 
+local terminal_instance = nil
+
+local function toggle_terminal()
+  local dir = vim.fn.expand("%:p:h")
+  if vim.bo.filetype == "NvimTree" or dir == "" or dir:match("^term://") then
+    dir = vim.fn.getcwd()
+  end
+
+  local Terminal = require("toggleterm.terminal").Terminal
+
+  if not terminal_instance then
+    terminal_instance = Terminal:new({
+      direction = "vertical",
+      on_open = function(term)
+        vim.cmd("startinsert!")
+      end,
+    })
+  end
+
+  local size = math.floor(vim.o.columns * 0.4)
+
+  if not terminal_instance:is_open() then
+    terminal_instance:toggle(size)
+    -- Send a cd command to the shell to ensure the working directory actually changes
+    terminal_instance:send("cd " .. vim.fn.fnameescape(dir))
+  else
+    terminal_instance:toggle()
+  end
+end
+
 return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
     keys = {
       { cmd("o"), toggle_claude, desc = "Toggle Claude Code", mode = { "n", "i", "v" } },
+      { cmd("t"), toggle_terminal, desc = "Toggle Terminal (Current Dir)", mode = { "n", "i", "v", "t" } },
     },
     opts = {
-      open_mapping = "<D-t>",
-      size = 30,
+      size = 15,
       highlights = { Normal = { link = "ToggleTerm" } },
       -- Fix issue where terminal is not in insert mode after toggle
       on_open = function()
